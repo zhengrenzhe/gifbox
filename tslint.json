@@ -1,0 +1,14 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "curly": false,
+        "arrow-parens": false,
+        "no-console": false,
+        "max-classes-per-file": false
+    },
+    "rulesDirectory": []
+}

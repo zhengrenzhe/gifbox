@@ -1,0 +1,18 @@
+{
+    "name": "gifbox",
+    "version": "1.0.0",
+    "description": "full control your gif picture like a video",
+    "main": "index.js",
+    "repository": "git@github.com:zhengrenzhe/gifbox.git",
+    "author": "zhengrenzhe <zhengrenzhe.niujie@gmail.com>",
+    "license": "MIT",
+    "private": false,
+    "devDependencies": {
+        "parcel-bundler": "^1.10.3",
+        "tslint": "^5.11.0",
+        "typescript": "^3.1.6"
+    },
+    "scripts": {
+        "start": "parcel test/index.html -p 3000"
+    }
+}
