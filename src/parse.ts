@@ -33,6 +33,18 @@ function parse(buffer: Uint8Array) {
     ] = splitByte(buffer[10], [1, 3, 1, 3]);
     const backgroundColorIndex = buffer[11];
     const pixelAspectRatio = buffer[12] === 0 ? 0 : (buffer[12] + 15) / 64;
+
+    // Global Color Table
+    let actualGlobalTableBytesCount = 0;
+    const globalTable: { [key: string]: Uint8Array } = {};
+    if (globalTableFlag === 1) {
+        actualGlobalTableBytesCount = 3 * Math.pow(2, globalTableSize + 1);
+        for (let i = 0; i < actualGlobalTableBytesCount; i += 3) {
+            const v = i / 3;
+            globalTable[`${v}${v}${v}`] = buffer.slice(13 + i, 13 + i + 3);
+        }
+    }
+    console.log(globalTable);
 }
 
 export default parse;

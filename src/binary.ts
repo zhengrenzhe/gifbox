@@ -33,7 +33,7 @@ function Uint8ToUint16(buffer: Uint8Array): number {
  * @param byte any number that want to be split
  * @param pos split position. eg: [1, 3, 1, 3] will split 247(1|111|0|111) to [1, 7, 1, 0]
  */
-function splitByte(byte: number, pos: number[]) {
+function splitByte(byte: number, pos: number[]): number[] {
     const res: number[] = [];
     for (let i = pos.length - 1; i >= 0; i--) {
         const cover = Math.pow(2, pos[i]) - 1;
