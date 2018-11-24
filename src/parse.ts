@@ -1,3 +1,5 @@
+import { splitByte, Uint8ToUint16 } from "./binary";
+
 function isGIF(signature: Uint8Array) {
     return (
         signature.length === 3 &&
@@ -13,19 +15,6 @@ function getVersion(version: Uint8Array) {
     throw new Error("Error: unrecognized gif version.");
 }
 
-const littleEndian = (() => {
-    const buffer = new ArrayBuffer(2);
-    new DataView(buffer).setInt16(0, 256, true);
-    return new Int16Array(buffer)[0] === 256;
-})();
-
-function Uint8ToUint16(buffer: Uint8Array) {
-    const buf = new ArrayBuffer(buffer.length);
-    const dv = new DataView(buf);
-    for (let i = 0; i < buffer.length; i++) dv.setUint8(i, buffer[i]);
-    return dv.getUint16(0, littleEndian);
-}
-
 function parse(buffer: Uint8Array) {
     // Header 6 bytes
     const signature = buffer.slice(0, 3);
@@ -34,10 +23,16 @@ function parse(buffer: Uint8Array) {
     if (!isGIF(signature)) throw new Error("Error: not gif.");
 
     // Logical Screen Descriptor 7 bytes
-    const width = Uint8ToUint16(buffer.slice(6, 8));
-    const height = Uint8ToUint16(buffer.slice(8, 10));
-
-    console.log(buffer.slice(10, 11));
+    const picWidth = Uint8ToUint16(buffer.slice(6, 8));
+    const picHeight = Uint8ToUint16(buffer.slice(8, 10));
+    const [
+        globalTableFlag,
+        colorResolution,
+        globalTableSorted,
+        globalTableSize,
+    ] = splitByte(buffer[10], [1, 3, 1, 3]);
+    const backgroundColorIndex = buffer[11];
+    const pixelAspectRatio = buffer[12] === 0 ? 0 : (buffer[12] + 15) / 64;
 }
 
 export default parse;
