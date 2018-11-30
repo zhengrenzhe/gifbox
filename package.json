@@ -10,7 +10,7 @@
     "devDependencies": {
         "parcel-bundler": "^1.10.3",
         "tslint": "^5.11.0",
-        "typescript": "^3.1.6"
+        "typescript": "^3.2.1"
     },
     "scripts": {
         "start": "mkdir -p dist && cp test/cat.gif dist && parcel serve test/index.html -p 3000"
