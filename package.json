@@ -13,6 +13,6 @@
         "typescript": "^3.2.1"
     },
     "scripts": {
-        "start": "mkdir -p dist && cp test/cat.gif dist && parcel serve test/index.html -p 3000"
+        "start": "mkdir -p dist && cp test/*.gif dist && parcel serve test/index.html -p 3000"
     }
 }

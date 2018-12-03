@@ -1,3 +1,3 @@
 import parse from "../src/index";
 
-parse("./cat.gif");
+parse("./bali.gif");

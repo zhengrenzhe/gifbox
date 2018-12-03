@@ -3,11 +3,13 @@ import { splitByte, Uint8ToUint16 } from "./binary";
 export default function parse(buffer: Uint8Array) {
     // GIF Signature 6 bytes (gif87a, gif89a)
     const signature = getSignature(buffer);
+    console.log(signature);
     if (signature !== "GIF87a" && signature !== "GIF89a")
         throw new Error("Error: unrecognized gif version.");
 
     // Logical Screen Descriptor 7 bytes (gif87a, gif89a)
     const screenDescriptor = getScreenDescriptor(buffer);
+    console.log(screenDescriptor);
 
     // Global Color Table (gif87a, gif89a)
     const GlobalColorTable = getGlobalColorTable(
@@ -16,7 +18,11 @@ export default function parse(buffer: Uint8Array) {
         screenDescriptor.colorResolution,
         buffer,
     );
-    console.log(GlobalColorTable);
+    const GlobalColorTableSize = GlobalColorTable.length;
+
+    // Image Descriptor
+    getImageDescriptor(buffer, GlobalColorTable);
+    console.log(buffer);
 }
 
 function getSignature(buffer: Uint8Array): GIF {
@@ -60,4 +66,11 @@ function getGlobalColorTable(
     }
 
     return table;
+}
+
+function getImageDescriptor(
+    buffer: Uint8Array,
+    globalColorTable: Uint8Array[],
+) {
+    console.log(buffer);
 }
