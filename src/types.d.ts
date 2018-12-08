@@ -18,3 +18,5 @@ type LogicalScreenDescriptor87 = {
 
     backgroundColorIndex: number;
 };
+
+type ColorTable = Uint8Array[];
