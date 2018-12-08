@@ -1,4 +1,5 @@
 import { splitByte, Uint8ToUint16 } from "./binary_utils";
+import LZW from "./lzw";
 
 export default function getImage(
     buffer: Uint8Array,
@@ -20,4 +21,5 @@ export default function getImage(
     }
 
     // Raster Data
+    LZW();
 }
