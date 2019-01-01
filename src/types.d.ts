@@ -1,6 +1,6 @@
 type GIF = "GIF87a" | "GIF89a";
 
-type LogicalScreenDescriptor87 = {
+type LogicalScreenDescriptor = {
     screenWidth: number;
     screenHeight: number;
 
@@ -17,6 +17,21 @@ type LogicalScreenDescriptor87 = {
     colorResolution: number;
 
     backgroundColorIndex: number;
+
+    sort: boolean;
+
+    pixelAspectRatio: number;
 };
 
 type ColorTable = Uint8Array[];
+
+type GraphicsControlExtension = {
+    Introducer: number;
+    GraphicControlLabel: number;
+    ByteSize: number;
+    Disposal: number;
+    UserInputFlag: number;
+    TransparentColorFlag: number;
+    DelayTime: number;
+    TransparentColorIndex: number;
+};

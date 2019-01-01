@@ -1,4 +1,5 @@
 import getGlobalColorTable from "./global_color_table";
+import getGraphicsControlExtension from "./graphics_control_extension";
 import getImage from "./image_descriptor";
 import getScreenDescriptor from "./screen_descriptor";
 import getSignature from "./signature";
@@ -18,12 +19,17 @@ export default function parse(buffer: Uint8Array) {
     // Global Color Table (gif87a, gif89a)
     const [globalColorTable, globalColorTableEndOffset] = getGlobalColorTable(
         screenDescriptor.hasGlobalColorTable,
-        screenDescriptor.pixle,
         screenDescriptor.colorResolution,
         buffer,
         screenDescriptorEndOffset + 1,
     );
 
-    // Image Descriptor
-    getImage(buffer, globalColorTable, globalColorTableEndOffset + 1);
+    // Graphics Control Extension (gif89a)
+    const [
+        graphicsControlExtension,
+        graphicsControlExtensionEndOffset,
+    ] = getGraphicsControlExtension(buffer, globalColorTableEndOffset + 1);
+
+    // Image Descriptor (gif87a, gif89a)
+    getImage(buffer, globalColorTable, graphicsControlExtensionEndOffset + 1);
 }
