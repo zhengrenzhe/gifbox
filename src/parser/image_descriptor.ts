@@ -30,80 +30,65 @@ export default function getImage(
         // use Local Color Map
     }
 
-    // Raster Data
-    LZW(buffer, base + 10);
+    // parse data sub-blocks
+    parseImage(buffer, base + 10);
+}
+
+function parseImage(buffer: Uint8Array, offset: number) {
+    const minCodeSize = buffer[offset];
+    const SubBlocks: Uint8Array[] = [];
+
+    while (buffer[++offset] !== 0) {
+        // each sub block
+        const blockSize = buffer[offset];
+        const subBlock = new Uint8Array(blockSize);
+        ++offset;
+        for (let i = 0; i < blockSize; i++) subBlock[i] = buffer[offset + i];
+        SubBlocks.push(subBlock);
+        offset += blockSize - 1;
+    }
 }
 
 function LZW(buffer: Uint8Array, startOffset: number) {
     const seq: number[] = [];
-    const minCodeSize = buffer[startOffset];
 
     while (buffer[++startOffset] !== 0) seq.push(buffer[startOffset]);
 
-    let test = [
-        1,
-        1,
-        1,
-        1,
-        1,
-        2,
-        2,
-        2,
-        2,
-        2,
-        1,
-        1,
-        1,
-        1,
-        1,
-        2,
-        2,
-        2,
-        2,
-        2,
-        1,
-        1,
-        1,
-        1,
-        1,
-        2,
-        2,
-        2,
-        2,
-        2,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2,
-        2,
-        2,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        2,
-        2,
-        2,
-    ];
+    // const ck = Compress(seq, minCodeSize);
+    // const mk = DeCompress(seq, minCodeSize);
 
-    const ck = Compress(test, minCodeSize);
-
-    const mk = DeCompress(ck, minCodeSize);
-
-    console.log(test);
-    console.log(ck);
-    console.log(mk);
+    console.log(seq);
+    // console.log(ck);
+    // console.log(mk);
 }
 
 function DeCompress(compressedSeq: number[], minCodeSize: number): number[] {
+    const ClearCode = Math.pow(2, minCodeSize);
+    function resetCodeTable() {
+        const m = new Map<number, number[]>();
+        for (let i = 0; i < ClearCode; i++) m.set(i, [i]);
+        m.set(ClearCode, [ClearCode]).set(ClearCode + 1, [ClearCode + 1]);
+        return m;
+    }
     const IndexStream: number[] = [];
+    const ColorTable = resetCodeTable();
+    let CodeAdder = 1;
+
+    // ignore clear code
+    IndexStream.push(compressedSeq[1]);
+
+    for (let i = 2; i < compressedSeq.length; i++) {
+        const CODE = compressedSeq[i];
+        if (ColorTable.has(CODE)) {
+            IndexStream.push(...ColorTable.get(CODE));
+            const K = ColorTable.get(CODE)[0];
+            ColorTable.set(ClearCode + ++CodeAdder, [...ColorTable.get(compressedSeq[i - 1]), K]);
+        } else {
+            const K = ColorTable.get(compressedSeq[i - 1])[0];
+            IndexStream.push(...ColorTable.get(compressedSeq[i - 1]), K);
+            ColorTable.set(ClearCode + ++CodeAdder, [...ColorTable.get(compressedSeq[i - 1]), K]);
+        }
+    }
 
     return IndexStream;
 }
