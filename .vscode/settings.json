@@ -1,5 +1,6 @@
 {
     "editor.formatOnSave": true,
     "typescript.tsdk": "node_modules/typescript/lib",
-    "tslint.nodePath": "node_modules"
+    "typescriptHero.imports.organizeOnSave": true,
+    "typescriptHero.imports.stringQuoteStyle": "\""
 }
