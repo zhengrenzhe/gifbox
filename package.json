@@ -8,8 +8,8 @@
     "license": "MIT",
     "devDependencies": {
         "parcel-bundler": "^1.11.0",
-        "tslint": "^5.12.0",
-        "typescript": "^3.2.2"
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.3"
     },
     "scripts": {
         "start": "mkdir -p dist && cp test/*.gif dist && parcel serve test/index.html -p 3000 --no-cache"
