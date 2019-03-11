@@ -63,3 +63,5 @@ typings/
 .cache
 dist
 .DS_STORE
+
+.idea
