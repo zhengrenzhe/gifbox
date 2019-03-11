@@ -1,9 +1,9 @@
+import decode from "./decode";
 import download from "./download";
-import parse from "./parser/index";
 
-async function gif(url: string) {
-    const buffer = await download(url);
-    parse(buffer);
+class Gif {
+    public static decode = decode;
+    public static download = download;
 }
 
-export default gif;
+export default Gif;

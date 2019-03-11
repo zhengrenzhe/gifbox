@@ -1,3 +1,3 @@
-import parse from "../src/index";
+import Gif from "../src";
 
-parse("./sample_1.gif");
+Gif.download("./sample_1.gif").then(buffer => Gif.decode(buffer));

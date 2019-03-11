@@ -1,4 +1,4 @@
-import { splitByte, Uint8ToUint16 } from "./binary_utils";
+import { splitByte, Uint8ToUint16 } from "../decode/utils";
 
 export default function getImage(
     buffer: Uint8Array,
@@ -64,12 +64,14 @@ function LZW(buffer: Uint8Array, startOffset: number) {
 
 function DeCompress(compressedSeq: number[], minCodeSize: number): number[] {
     const ClearCode = Math.pow(2, minCodeSize);
+
     function resetCodeTable() {
         const m = new Map<number, number[]>();
         for (let i = 0; i < ClearCode; i++) m.set(i, [i]);
         m.set(ClearCode, [ClearCode]).set(ClearCode + 1, [ClearCode + 1]);
         return m;
     }
+
     const IndexStream: number[] = [];
     const ColorTable = resetCodeTable();
     let CodeAdder = 1;

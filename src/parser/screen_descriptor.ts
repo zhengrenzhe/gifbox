@@ -1,4 +1,4 @@
-import { splitByte, Uint8ToUint16 } from "./binary_utils";
+import { splitByte, Uint8ToUint16 } from "../decode/utils";
 
 export default function getScreenDescriptor(
     buffer: Uint8Array,

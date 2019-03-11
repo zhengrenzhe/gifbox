@@ -1,4 +1,4 @@
-export default function download(url: string): Promise<Uint8Array> {
+function download(url: string): Promise<Uint8Array> {
     return new Promise<Uint8Array>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
@@ -12,3 +12,5 @@ export default function download(url: string): Promise<Uint8Array> {
         };
     });
 }
+
+export default download;
